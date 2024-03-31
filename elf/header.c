@@ -25,6 +25,162 @@ void getMagic(Elf32_Ehdr header, char *magic) {
             header.e_ident[15]);
 }
 
+const char *getClass(Elf32_Ehdr header) {
+    switch (header.e_ident[EI_CLASS]) {
+    case ELFCLASSNONE:
+        return "Invalid class";
+        break;
+    case ELFCLASS32:
+        return "ELF32";
+        break;
+    case ELFCLASS64:
+        return "ELF64";
+        break;
+    default:
+        return NULL;
+        break;
+    }
+}
+
+const char *getDataEncoding(Elf32_Ehdr header) {
+    switch (header.e_ident[EI_DATA]) {
+    case ELFDATANONE:
+        return "Invalid data encoding";
+        break;
+    case ELFDATA2LSB:
+        return "2's complement, little endian";
+        break;
+    case ELFDATA2MSB:
+        return "2's complement, big endian";
+        break;
+    default:
+        return NULL;
+        break;
+    }
+}
+
+const char *getType(Elf32_Ehdr header) {
+    switch (header.e_type) {
+    case ET_NONE:
+        return "NONE (No file type)";
+        break;
+    case ET_REL:
+        return "REL (Relocatable file)";
+        break;
+    case ET_EXEC:
+        return "EXEC (Executable file)";
+        break;
+    case ET_DYN:
+        return "DYN (Shared object file)";
+        break;
+    case ET_CORE:
+        return "CORE (Core file)";
+        break;
+    case ET_LOPROC:
+        return "LOPROC (Processor-specific)";
+        break;
+    case ET_HIPROC:
+        return "HIPROC (Processor-specific)";
+        break;
+    default:
+        return NULL;
+        break;
+    }
+}
+
+const char *getMachine(Elf32_Ehdr header) {
+    switch (header.e_machine) {
+    case EM_NONE:
+        return "No machine";
+        break;
+    case EM_M32:
+        return "AT&T WE 32100";
+        break;
+    case EM_SPARC:
+        return "SPARC";
+        break;
+    case EM_386:
+        return "Intel 80386";
+        break;
+    case EM_68K:
+        return "Motorola 68000";
+        break;
+    case EM_88K:
+        return "Motorola 88000";
+        break;
+    case EM_860:
+        return "Intel 80860";
+        break;
+    case EM_MIPS:
+        return "MIPS RS3000";
+        break;
+    default:
+        return NULL;
+        break;
+    }
+}
+
+const char *getVersion(Elf32_Ehdr header) {
+    switch (header.e_version) {
+    case EV_NONE:
+        return "0 (Invalid version)";
+        break;
+    case EV_CURRENT:
+        return "1 (Current version)";
+        break;
+    default:
+        return NULL;
+        break;
+    }
+}
+
+const char *getOsAbi(Elf32_Ehdr header) {
+    switch (header.e_ident[EI_OSABI]) {
+    case ELFOSABI_NONE:
+        return "UNIX - System V";
+        break;
+    case ELFOSABI_HPUX:
+        return "UNIX - HP-UX";
+        break;
+    case ELFOSABI_NETBSD:
+        return "UNIX - NetBSD";
+        break;
+    case ELFOSABI_LINUX:
+        return "UNIX - Linux";
+        break;
+    case ELFOSABI_SOLARIS:
+        return "UNIX - Solaris";
+        break;
+    case ELFOSABI_AIX:
+        return "UNIX - AIX";
+        break;
+    case ELFOSABI_IRIX:
+        return "UNIX - IRIX";
+        break;
+    case ELFOSABI_FREEBSD:
+        return "UNIX - FreeBSD";
+        break;
+    case ELFOSABI_TRU64:
+        return "UNIX - TRU64";
+        break;
+    case ELFOSABI_MODESTO:
+        return "Novell - Modesto";
+        break;
+    case ELFOSABI_OPENBSD:
+        return "UNIX - OpenBSD";
+        break;
+    case ELFOSABI_ARM:
+        return "ARM";
+        break;
+    case ELFOSABI_STANDALONE:
+        return "Standalone (embedded) application";
+        break;
+    default:
+        return NULL;
+        break;
+    }
+}
+
 void printHeader(Elf32_Ehdr header) {}
 
 void elf_27259_glava(const char *path) {
