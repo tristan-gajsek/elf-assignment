@@ -181,7 +181,37 @@ const char *getOsAbi(Elf32_Ehdr header) {
     }
 }
 
-void printHeader(Elf32_Ehdr header) {}
+void printHeader(Elf32_Ehdr header) {
+    char magic[47];
+    getMagic(header, magic);
+
+    printf("ELF Header:\n"
+           "  Magic:                             %s\n"
+           "  Class:                             %s\n"
+           "  Data:                              %s\n"
+           "  Version:                           %s\n"
+           "  OS/ABI:                            %s\n"
+           "  ABI Version:                       %d\n"
+           "  Type:                              %s\n"
+           "  Machine:                           %s\n"
+           "  Version:                           0x%X\n"
+           "  Entry point address:               0x%X\n"
+           "  Start of program headers:          %d (bytes into file)\n"
+           "  Start of section headers:          %d (bytes into file)\n"
+           "  Flags:                             0x%X\n"
+           "  Size of this header:               %d (bytes)\n"
+           "  Size of program headers:           %d (bytes)\n"
+           "  Number of program headers:         %d\n"
+           "  Size of section headers:           %d (bytes)\n"
+           "  Number of section headers:         %d\n"
+           "  Section header string table index: %d\n",
+           magic, getClass(header), getDataEncoding(header), getVersion(header),
+           getOsAbi(header), header.e_ident[EI_ABIVERSION], getType(header),
+           getMachine(header), header.e_version, header.e_entry, header.e_phoff,
+           header.e_shoff, header.e_flags, header.e_ehsize, header.e_phentsize,
+           header.e_phnum, header.e_shentsize, header.e_shnum,
+           header.e_shstrndx);
+}
 
 void elf_27259_glava(const char *path) {
     Elf32_Ehdr header;
