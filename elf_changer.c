@@ -1,6 +1,7 @@
 #include <elf.h>
 #include <stdio.h>
 #include "elf/header.c"
+#include "elf/symbols.c"
 
 void printUsage() {
     printf("elf_loader [-hlc] [OPTIONS] elf_path\n\n"
@@ -22,6 +23,7 @@ int main(const int argc, const char **argv) {
             elf_27259_glava(argv[2]);
             return 0;
         } else if (argv[1][1] == 'l') {
+            elf_27259_simboli(argv[2]);
             return 0;
         } else if (argv[1][1] == 'c') {
             return 0;
