@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "elf/header.c"
 #include "elf/symbols.c"
+#include "elf/replace.c"
 
 void printUsage() {
     printf("elf_loader [-hlc] [OPTIONS] elf_path\n\n"
@@ -26,6 +27,7 @@ int main(const int argc, const char **argv) {
             elf_27259_simboli(argv[2]);
             return 0;
         } else if (argv[1][1] == 'c') {
+            elf_27259_menjaj(&argv[1], argc - 1);
             return 0;
         }
     }
