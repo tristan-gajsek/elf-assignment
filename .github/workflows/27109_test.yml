@@ -1,0 +1,58 @@
+name: Run tests
+
+on:
+    push:
+        branches: [master]
+
+jobs:
+    find-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Check if tests exist
+              run: "[ -f tests/test.sh ]"
+
+    run-tests:
+        runs-on: ${{ matrix.os }}
+        needs: [find-tests]
+        strategy:
+            matrix:
+                os: [ubuntu-latest, ubuntu-20.04]
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Install dependencies
+              run: sudo apt-get update -y && sudo apt-get install -y gcc-multilib
+
+            - name: Run tests
+              run: make test 2> napaka.txt && echo "No errors" > napaka.txt
+
+            - name: Store test errors in artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: test-errors
+                  path: napaka.txt
+
+    # deploy:
+    #     runs-on: ubuntu-latest
+    #     needs: [run-tests]
+    #     steps:
+    #         - name: Download test errors from artifact
+    #           uses: actions/download-artifact@v2
+    #           with:
+    #               name: test-errors
+    #
+    #         - name: Check test errors
+    #           run: '[ "$(cat napaka.txt)" = "$(echo "No errors")" ]'
+    #
+    #         - name: Checkout repository
+    #           uses: actions/checkout@v2
+    #
+    #         - name: Build and push image to DockerHub
+    #           run: ./zapakiraj_27109.sh ${{ secrets.DOCKERHUB_TOKEN }}
+    #
+    #         - name: Run Docker image
+    #           run: ./zazeni_27109.sh

@@ -1,0 +1,27 @@
+name: Deploy to DockerHub
+
+on:
+    workflow_run:
+        workflows: ["Run tests"]
+        types: [completed]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download test errors from artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: test-errors
+
+            - name: Check test errors
+              run: '[ "$(cat napaka.txt)" = "$(echo "No errors")" ]'
+
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Build and push image to DockerHub
+              run: ./zapakiraj_27109.sh ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Run Docker image
+              run: ./zazeni_27109.sh

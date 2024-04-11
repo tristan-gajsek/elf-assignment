@@ -1,0 +1,10 @@
+elf_loader [-hlc] [OPTIONS] elf_path
+
+-h
+  izpis zaglavja zbirke podane v elf_path
+
+-l
+  izpis vseh funkcij, ki jih najdete v .text sekciji in imajo velikost večjo od 20 zlogov
+
+-c [spr1,spr2,spr3,...]
+  spreminjanje vrednosti vseh spremeljivk programa za +20, ki jih lahko najdete v programu v elf_path

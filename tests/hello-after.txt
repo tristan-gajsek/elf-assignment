@@ -1,0 +1,3 @@
+Vrednost g1: 0
+Vrednost g2: 30
+Vrednost g3: 34
